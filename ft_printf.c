@@ -45,15 +45,15 @@ int ft_printf(const char *string, ...)
 
     while (*string)
     {
-        if ((*string == '%') && (*(string + 1)=='s') || (*(string + 1)=='d') ||(*(string + 1)=='x'))
+        if ((*string == '%') && (*(string + 1)=='s' || (*(string + 1)=='d') ||(*(string + 1)=='x')))
         {
             string++;
             if (*string == 's')
                 count += ft_printstr(va_arg(pa, char *));
             else if (*string == 'd')
-                count += ft_print_digit(va_arg(pa, char *), 10, "0123456789");
+                count += ft_print_digit((long)(va_arg(pa, int)), 10, "0123456789");
             else if (*string == 'x')
-                count += ft_print_digit(va_arg(pa, char *), 16, "0123456789abcdef");
+                count += ft_print_digit((unsigned long)(va_arg(pa, unsigned int)), 16, "0123456789abcdef");
         }
         else
             count += write(1, string, 1);

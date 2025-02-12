@@ -119,3 +119,15 @@ char    *get_next_line(int fd)
 // 	}
 // 	return 0;
 // }
+
+// char	*ft_strdup(const char *s)
+// {
+//     int		len = ft_strlen(s);
+//     char	*dup = malloc(len + 1);
+//     if (!dup)
+//         return NULL;
+//     for (int i = 0; i < len; i++)
+//         dup[i] = s[i];
+//     dup[len] = '\0';
+//     return dup;
+// }
