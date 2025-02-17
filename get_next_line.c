@@ -5,7 +5,7 @@
 #include <stdlib.h>
 
 #ifndef BUFFER_SIZE
-# define BUFFER_SIZE 1024
+# define BUFFER_SIZE 10
 #endif
 
 int ft_strlen(const char *str)
@@ -15,13 +15,14 @@ int ft_strlen(const char *str)
         i++;
     return (i);
 }
+
 void ft_bzero(void *s, int n)
 {
     unsigned char *ptr = s;
     while (n--)
         *ptr++ = 0;
-    
 }
+
 char *ft_strchr(const char *str, int c)
 {
     while (*str)
@@ -33,25 +34,26 @@ char *ft_strchr(const char *str, int c)
     return NULL;
 }
 
-void    move_buffer(char *buffer)
+void move_buffer(char *buffer)
 {
     int i = 0;
     int j = 0;
     while (buffer[i] && buffer[i] != '\n')
         i++;
-    if (buffer[i] != '\n')
+    if (buffer[i] == '\n')
         i++;
     while (buffer[i])
         buffer[j++] = buffer[i++];
     while (buffer[j])
         buffer[j++] = 0;
 }
-char    *join_buffer_to_line(char *buffer, char *line)
+
+char *join_buffer_to_line(char *buffer, char *line)
 {
     int i = 0;
     int j = 0;
-    int new_len = ft_strlen(buffer) + ft_strlen(line) + 2;
-    char *res = malloc(new_len);
+    int new_len = ft_strlen(buffer) + ft_strlen(line) + 1;
+    char *res = malloc(new_len + 1);
     if (!res)
         return NULL;
     while (line[i])
@@ -64,14 +66,18 @@ char    *join_buffer_to_line(char *buffer, char *line)
     {
         res[i] = buffer[j];
         if (buffer[j] == '\n')
+        {
+            i++;
             break;
+        }
         i++;
         j++;
     }
-    res[i + 1] = '\n';
+    res[i] = '\0';
     return res;
 }
-char    *get_next_line(int fd)
+
+char *get_next_line(int fd)
 {
     static char buffer[BUFFER_SIZE + 1];
     char *line;
@@ -100,34 +106,24 @@ char    *get_next_line(int fd)
     return line;
 }
 
-// int main()
-// {
-// 	int bs = BUFFER_SIZE;
-// 	printf("buffer size is %d\n", bs);
-// 	char	*line;
-// 	int		fd;
+int main()
+{
+    int bs = BUFFER_SIZE;
+    printf("buffer size is %d\n", bs);
+    char *line;
+    int fd;
+    int i = 10;
 
-// 	fd = open("test", O_RDONLY);
-// 	while (1)
-// 	{
-// 		line = get_next_line(fd);
-// 		if (!line)
-// 			break ;
-// 		printf("%s", line);
-// 		printf("----------\n");
-// 		free(line);
-// 	}
-// 	return 0;
-// }
-
-// char	*ft_strdup(const char *s)
-// {
-//     int		len = ft_strlen(s);
-//     char	*dup = malloc(len + 1);
-//     if (!dup)
-//         return NULL;
-//     for (int i = 0; i < len; i++)
-//         dup[i] = s[i];
-//     dup[len] = '\0';
-//     return dup;
-// }
+    fd = open("file", O_RDONLY);
+    while (i--)
+    {
+        line = get_next_line(fd);
+        if (!line)
+            break;
+        printf("%s", line);
+        printf("----------\n");
+        free(line);
+    }
+    close(fd);
+    return 0;
+}
