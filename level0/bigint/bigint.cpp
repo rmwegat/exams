@@ -37,8 +37,6 @@ bigint& bigint::operator=(const bigint& source)
 
 bigint bigint::operator+(const bigint& other)const
 {
-    // Simple implementation: convert to integers, add, and convert back
-    // Note: This is a basic implementation for demonstration
     unsigned int this_num = std::atoi(this->str.c_str());
     unsigned int other_num = std::atoi(other.str.c_str());
     return bigint(this_num + other_num);
